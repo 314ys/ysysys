@@ -40,7 +40,7 @@
   @keyframes pulse{50%{opacity:.35}}
   /* 비밀번호 키패드 */
   #pw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:calc(env(safe-area-inset-top) + 100px);
-    background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;cursor:default}
+    background:rgba(0,0,0,.3);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);opacity:0;pointer-events:none;transition:opacity .25s;cursor:default}
   #pw.show{opacity:1;pointer-events:auto}
   #pw .pt{font-size:20px;font-weight:500}
   .dots{display:flex;gap:22px;margin:20px 0 70px}
@@ -57,6 +57,9 @@
   .kp button:active{background:rgba(255,255,255,.5)}
   .pwfoot{width:calc(3*74px + 2*22px);display:flex;justify-content:space-between;margin-top:30px}
   .pwfoot button{background:none;border:0;color:#fff;font-size:17px;padding:8px 4px}
+  .lk-date,.lk-time,.lk-lockicon{transition:opacity .25s}
+  #lock.pwmode .lk-date,#lock.pwmode .lk-time,#lock.pwmode .lk-lockicon{opacity:0}
+  #lock.pwmode .lk-hint{animation:none;opacity:0}
 
   /* ================= 홈화면 ================= */
   #home{z-index:1}
@@ -363,8 +366,8 @@
   let entered = '';
   function unlock(){ lock.classList.add('gone'); hidePw(); }
   function relock(){ closeApp(); lock.classList.remove('gone'); }
-  function showPw(){ entered=''; drawDots(); $('#pw').classList.add('show'); }
-  function hidePw(){ $('#pw').classList.remove('show'); entered=''; drawDots(); }
+  function showPw(){ entered=''; drawDots(); $('#pw').classList.add('show'); lock.classList.add('pwmode'); }
+  function hidePw(){ $('#pw').classList.remove('show'); lock.classList.remove('pwmode'); entered=''; drawDots(); }
   function drawDots(){ $('#dots').querySelectorAll('i').forEach((d,i)=>d.classList.toggle('on', i<entered.length)); $('#pwCancel').textContent = entered.length ? '삭제' : '취소'; }
   lock.addEventListener('click', e=>{ if(!e.target.closest('#pw')) showPw(); });
   let ty=null;
