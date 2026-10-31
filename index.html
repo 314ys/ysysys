@@ -190,19 +190,76 @@
 
   /* ================= 전화 ================= */
   #app-phone{background:#fff}
-  .ptab{display:flex;border-top:.5px solid var(--line);background:#f9f9f9;padding:6px 0 calc(var(--hb) + 2px);flex:none}
-  .ptab button{flex:1;background:none;border:0;font-size:11px;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:3px}
-  .ptab button b{font-size:21px;font-weight:400}
-  .ptab button.on{color:var(--blue)}
-  #pBody{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}
-  .disp{text-align:center;font-size:34px;min-height:48px;margin-top:20px;letter-spacing:1px;padding:0 20px;word-break:break-all}
-  .addc{text-align:center;color:var(--blue);font-size:15px;min-height:22px;background:none;border:0;margin:4px auto 6px}
-  .pad{display:grid;grid-template-columns:repeat(3,78px);gap:14px 22px;justify-content:center;margin:6px 0 10px}
-  .pad button{width:78px;height:78px;border-radius:50%;border:0;background:#e9e9ee;font-size:32px}
-  .pad button:active{background:#c7c7cc}
-  .pad .call{background:var(--green);color:#fff;font-size:28px}
-  .pad .bk{background:none;font-size:26px;color:var(--sub)}
-  .rc .n.miss{color:var(--red)}
+  #pBody{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff}
+  .phead{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:calc(env(safe-area-inset-top) + 14px) 16px 10px;flex:none}
+  .phead>:first-child{justify-self:start}
+  .phead>:last-child{justify-self:end}
+  .ptitle{font-size:17px;font-weight:600}
+  .ppill{height:50px;padding:0 20px;border-radius:25px;border:0;background:#fff;color:#000;font-size:17px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  .pcirc{width:52px;height:52px;border-radius:50%;border:0;background:#fff;color:#000;box-shadow:0 4px 16px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;padding:0}
+  .pcirc svg{width:24px;height:24px}
+  .pcirc.act{color:#2f7df6}
+  .pspacer{width:52px}
+  .plist{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 130px}
+  .pempty{text-align:center;color:#8e8e93;padding:90px 24px;line-height:1.7}
+
+  /* 아바타 / 행 */
+  .pav{width:54px;height:54px;border-radius:50%;background:linear-gradient(#a3abe0,#6f7ac4);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:20px;flex:none}
+  .pav svg{width:62%;height:62%}
+  .pav.xl{width:120px;height:120px;font-size:42px}
+  .prow,.crow{display:flex;align-items:center;gap:12px;padding:10px 0;position:relative;cursor:pointer}
+  .prow+.prow::before,.crow+.crow::before{content:"";position:absolute;top:0;left:66px;right:0;height:.5px;background:#d8d8dc}
+  .pmid{flex:1;min-width:0}
+  .pname{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .psub{display:flex;align-items:center;gap:6px;font-size:15px;color:#8e8e93;margin-top:2px}
+  .pdate{font-size:15px;color:#8e8e93;flex:none}
+  .pcallbtn{width:52px;height:52px;border-radius:50%;border:0;background:#f0f0f3;color:#2f7df6;display:flex;align-items:center;justify-content:center;padding:0;flex:none}
+  .pcallbtn svg{width:22px;height:22px}
+  .pdel{border:0;background:none;color:#ff3b30;font-size:16px;flex:none;padding:8px}
+
+  /* 연락처 */
+  .psbar{margin:0 16px 8px;height:44px;border-radius:22px;background:#f2f2f7;display:flex;align-items:center;gap:8px;padding:0 14px;color:#8e8e93;flex:none}
+  .psbar svg{width:18px;height:18px;flex:none}
+  .psbar input{flex:1;min-width:0;border:0;outline:none;background:none;font-size:17px}
+  .psec{font-size:15px;font-weight:700;color:#8e8e93;margin:16px 0 2px}
+  .pcount{text-align:center;color:#8e8e93;font-size:15px;margin:24px 0 8px}
+  .pdetail{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:10px 20px 40px}
+  .dname{font-size:28px;font-weight:700;margin:14px 0 18px;text-align:center}
+  .dact{display:flex;gap:14px;margin-bottom:22px}
+  .dbtn{width:76px;height:64px;border-radius:16px;border:0;background:#f2f2f7;color:#2f7df6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px}
+  .dbtn svg{width:22px;height:22px}
+  .dcard{align-self:stretch;background:#f2f2f7;border-radius:16px;padding:12px 16px;margin-bottom:12px}
+  .dl{font-size:13px;color:#8e8e93}
+  .dv{font-size:18px;margin-top:2px;white-space:pre-wrap;word-break:break-word}
+  .ddel{margin-top:10px;align-self:stretch;border:0;background:#f2f2f7;color:#ff3b30;border-radius:16px;padding:14px;font-size:17px}
+
+  /* 키패드 */
+  .pkp{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:calc(var(--hb) + 96px)}
+  .pdisp{font-size:36px;min-height:48px;letter-spacing:.5px;text-align:center;padding:0 20px;word-break:break-all}
+  .paddc{height:30px;margin-bottom:14px}
+  .paddc button{border:0;background:none;color:#2f7df6;font-size:17px}
+  .pgrid{display:grid;grid-template-columns:repeat(3,78px);gap:18px 24px}
+  .pkey{width:78px;height:78px;border-radius:50%;border:0;background:#fafafa;box-shadow:0 8px 28px rgba(0,0,0,.08);color:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;line-height:1}
+  .pkey:active{background:#e3e3e8}
+  .pkey .n{font-size:38px;font-weight:400}
+  .pkey .l{font-size:11px;font-weight:700;letter-spacing:3px;margin-top:3px;text-indent:3px}
+  .pcallrow{display:grid;grid-template-columns:repeat(3,78px);gap:0 24px;margin-top:22px;align-items:center;justify-items:center}
+  .pcall{width:78px;height:78px;border-radius:50%;border:0;background:#67d06a;color:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+  .pcall svg{width:34px;height:34px}
+  .pbk{width:78px;height:78px;border:0;background:none;color:#8e8e93;display:flex;align-items:center;justify-content:center;padding:0}
+  .pbk svg{width:30px;height:30px}
+
+  /* 아래 떠 있는 탭 */
+  .pnav{position:absolute;left:14px;right:14px;bottom:calc(var(--hb) + 8px);display:flex;gap:12px;align-items:center;z-index:5}
+  .ptabs{flex:1;height:64px;background:rgba(255,255,255,.92);border-radius:32px;box-shadow:0 6px 24px rgba(0,0,0,.12);display:flex;padding:4px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .ptabs button{flex:1;border:0;background:none;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#000;padding:0}
+  .ptabs button.on{background:#ebebed;color:#2f7df6}
+  .ptabs svg{width:26px;height:26px}
+  .ptabs span{font-size:11px;font-weight:500}
+  .psbtn{width:64px;height:64px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#000;box-shadow:0 6px 24px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;padding:0;flex:none}
+  .psbtn svg{width:26px;height:26px}
+
+  /* 통화 중 */
   #calling{position:absolute;inset:0;z-index:6;background:linear-gradient(#2c2c34,#111);color:#fff;display:flex;flex-direction:column;align-items:center;padding-top:110px}
   #calling .cn{font-size:32px;font-weight:600}
   #calling .cs{opacity:.7;margin-top:8px;font-size:17px}
@@ -343,12 +400,14 @@
 
   <!-- 전화 -->
   <section class="app" id="app-phone">
-    <div class="appnav"><span style="min-width:44px"></span><div class="t" id="pTitle"></div><button class="plus hide" id="contactAdd">＋</button></div>
     <div id="pBody"></div>
-    <div class="ptab" id="ptab">
-      <button data-t="recent"><b>🕘</b>최근 기록</button>
-      <button data-t="contacts"><b>👤</b>연락처</button>
-      <button data-t="keypad"><b>⌗</b>키패드</button>
+    <div class="pnav" id="pnav">
+      <div class="ptabs" id="ptabs">
+        <button data-t="recent"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5V12H8.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>통화</span></button>
+        <button data-t="contacts"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><circle cx="12" cy="9.5" r="3.3" fill="#fff"/><path d="M5.8 18.5c1.3-2.7 3.5-3.9 6.2-3.9s4.9 1.2 6.2 3.9a9 9 0 01-12.4 0z" fill="#fff"/></svg><span>연락처</span></button>
+        <button data-t="keypad"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="3.5" r="1.9"/><circle cx="12" cy="3.5" r="1.9"/><circle cx="19" cy="3.5" r="1.9"/><circle cx="5" cy="9.5" r="1.9"/><circle cx="12" cy="9.5" r="1.9"/><circle cx="19" cy="9.5" r="1.9"/><circle cx="5" cy="15.5" r="1.9"/><circle cx="12" cy="15.5" r="1.9"/><circle cx="19" cy="15.5" r="1.9"/><circle cx="12" cy="21" r="1.9"/></svg><span>키패드</span></button>
+      </div>
+      <button class="psbtn" id="pSearchBtn" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button>
     </div>
     <div id="calling" class="hide">
       <div class="cn" id="callName"></div>
@@ -703,61 +762,147 @@
   /* =====================================================
      전화
   ===================================================== */
-  let ptab='keypad', dial='', callT=null, callStart=0, callWho=null;
-  const nameOf = num => { const c=contacts.find(c=>c.num===num); return c?c.name:''; };
-  R.phone = function(){
-    $('#ptab').querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.t===ptab));
-    $('#contactAdd').classList.toggle('hide', ptab!=='contacts');
-    const body=$('#pBody');
-    if(ptab==='keypad'){
-      $('#pTitle').textContent='';
-      body.innerHTML='<div class="disp" id="disp">'+esc(dial)+'</div>'+
-        '<button class="addc" id="addNum">'+(dial?'연락처에 추가':'')+'</button>'+
-        '<div class="pad">'+['1','2','3','4','5','6','7','8','9','*','0','#'].map(k=>'<button data-k="'+k+'">'+k+'</button>').join('')+
-        '<span></span><button class="call" data-k="call">☎</button><button class="bk" data-k="bk">'+(dial?'⌫':'')+'</button></div>';
-    } else if(ptab==='recent'){
-      $('#pTitle').textContent='';
-      const items=recents.slice().sort((a,b)=>b.at-a.at);
-      body.innerHTML='<div class="big">최근 기록</div>'+(items.length?'<div class="group rc">'+items.map(r=>
-        '<div class="row" data-num="'+esc(r.num)+'"><div class="b"><div class="n">'+esc(nameOf(r.num)||r.num)+'</div><div class="p">발신'+(nameOf(r.num)?' · '+esc(r.num):'')+' · '+Math.floor(r.dur/60)+'분 '+(r.dur%60)+'초</div></div><div class="tm">'+ago(r.at)+'</div></div>'
-      ).join('')+'</div>':'<div class="empty">통화 기록이 없어요<br>키패드에서 전화를 걸어보세요</div>');
-    } else {
-      $('#pTitle').textContent='';
-      const items=contacts.slice().sort((a,b)=>a.name.localeCompare(b.name,'ko'));
-      body.innerHTML='<div class="big">연락처</div>'+(items.length?'<div class="group">'+items.map(c=>
-        '<div class="row" data-num="'+esc(c.num)+'" data-cid="'+c.id+'"><div class="av" style="background:'+color(c.name)+'">'+esc(c.name[0])+'</div><div class="b"><div class="n">'+esc(c.name)+'</div><div class="p">'+esc(c.num)+'</div></div></div>'
-      ).join('')+'</div><div style="text-align:center;color:var(--sub);font-size:13px;margin-top:10px">연락처를 길게 누르면 삭제할 수 있어요</div>':'<div class="empty">저장된 연락처가 없어요<br>오른쪽 위 ＋ 로 추가해보세요</div>');
-    }
+  let ptab='keypad', dial='', contactId=null, editing=false, onlyKnown=false, cQuery='';
+  let callT=null, callStart=0, callWho=null;
+
+  const norm = s => String(s).replace(/[^\d*#+]/g,'');
+  const findContact = num => { const n=norm(num); return n ? contacts.find(c=>norm(c.num)===n) : null; };
+  const nameOf = num => { const c=findContact(num); return c ? c.name : ''; };
+  const abbr = n => n.length<=2 ? n : n.slice(-2);
+  function fmtNum(s){
+    if(!/^\d+$/.test(s)) return s;
+    if(s.startsWith('010')||s.startsWith('011')) return [s.slice(0,3),s.slice(3,7),s.slice(7,11)].filter(Boolean).join('-');
+    return s;
+  }
+  function callDate(t){
+    const d=new Date(t), now=new Date();
+    if(d.toDateString()===now.toDateString()){ const h=d.getHours(); return (h<12?'오전 ':'오후 ')+(h%12||12)+':'+pad(d.getMinutes()); }
+    return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.';
+  }
+  const IC = {
+    phone:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
+    person:'<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="8" r="4.2"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7z"/></svg>',
+    out:'<svg viewBox="0 0 12 12" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l6-6M4 3h5v5"/></svg>',
+    bk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h10a2 2 0 012 2v8a2 2 0 01-2 2H9l-6-6z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>',
+    filter:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M7 12h10M10 17h4"/></svg>',
+    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+    search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>'
   };
-  $('#ptab').addEventListener('click', e=>{ const b=e.target.closest('button'); if(b){ ptab=b.dataset.t; R.phone(); } });
+  const avHTML = (name,size) => '<div class="pav'+(size?' '+size:'')+'">'+(name ? '<span>'+esc(abbr(name))+'</span>' : IC.person)+'</div>';
+  const KEYS=[['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['*',''],['0','+'],['#','']];
+
+  /* ----- 화면 만들기 ----- */
+  function viewKeypad(){
+    return '<div class="pkp"><div class="pdisp">'+esc(fmtNum(dial))+'</div>'+
+      '<div class="paddc">'+(dial?'<button id="addNum">연락처에 추가</button>':'')+'</div>'+
+      '<div class="pgrid">'+KEYS.map(k=>'<button class="pkey" data-k="'+k[0]+'"><span class="n">'+k[0]+'</span>'+(k[1]?'<span class="l">'+k[1]+'</span>':'')+'</button>').join('')+'</div>'+
+      '<div class="pcallrow"><span></span><button class="pcall" data-k="call" aria-label="전화 걸기">'+IC.phone+'</button>'+
+      (dial?'<button class="pbk" data-k="bk" aria-label="지우기">'+IC.bk+'</button>':'<span></span>')+'</div></div>';
+  }
+  function viewRecent(){
+    let items=recents.slice().sort((a,b)=>b.at-a.at);
+    if(onlyKnown) items=items.filter(r=>nameOf(r.num));
+    return '<div class="phead"><button class="ppill" id="pEdit">'+(editing?'완료':'편집')+'</button><div class="ptitle">통화</div>'+
+      '<button class="pcirc'+(onlyKnown?' act':'')+'" id="pFilter" aria-label="저장된 연락처만 보기">'+IC.filter+'</button></div>'+
+      '<div class="plist">'+(items.length ? items.map(r=>{
+        const nm=nameOf(r.num);
+        return '<div class="prow" data-id="'+r.id+'" data-num="'+esc(r.num)+'">'+avHTML(nm)+
+          '<div class="pmid"><div class="pname">'+esc(nm||fmtNum(r.num))+'</div><div class="psub">'+IC.out+(nm?'휴대전화':'발신')+'</div></div>'+
+          '<div class="pdate">'+callDate(r.at)+'</div>'+
+          (editing ? '<button class="pdel" data-a="del">삭제</button>' : '<button class="pcallbtn" data-a="call" aria-label="전화">'+IC.phone+'</button>')+'</div>';
+      }).join('') : '<div class="pempty">'+(onlyKnown?'저장된 연락처와의 통화가 없어요':'통화 기록이 없어요<br>키패드에서 전화를 걸어보세요')+'</div>')+'</div>';
+  }
+  const HAN_ORDER=['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  const CHO=['ㄱ','ㄱ','ㄴ','ㄷ','ㄷ','ㄹ','ㅁ','ㅂ','ㅂ','ㅅ','ㅅ','ㅇ','ㅈ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  const GROUP_ORDER=HAN_ORDER.concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),['#']);
+  function groupKey(name){
+    const ch=name.trim()[0]||'#', code=ch.charCodeAt(0);
+    if(code>=0xAC00 && code<=0xD7A3) return CHO[Math.floor((code-0xAC00)/588)];
+    if(/[A-Za-z]/.test(ch)) return ch.toUpperCase();
+    return '#';
+  }
+  function contactListHTML(){
+    const q=cQuery.trim().toLowerCase(), nq=norm(q);
+    const list=contacts.filter(c=>!q || c.name.toLowerCase().includes(q) || (nq && norm(c.num).includes(nq)));
+    if(!list.length) return '<div class="pempty">'+(q?'검색 결과가 없어요':'저장된 연락처가 없어요<br>오른쪽 위 ＋ 로 추가해보세요')+'</div>';
+    const gs={}; list.forEach(c=>{ const k=groupKey(c.name); (gs[k]=gs[k]||[]).push(c); });
+    return GROUP_ORDER.filter(k=>gs[k]).map(k=>
+      '<div class="psec">'+k+'</div><div>'+gs[k].sort((a,b)=>a.name.localeCompare(b.name,'ko')).map(c=>
+        '<div class="crow" data-id="'+c.id+'">'+avHTML(c.name)+'<div class="pmid"><div class="pname">'+esc(c.name)+'</div></div></div>').join('')+'</div>'
+    ).join('')+'<div class="pcount">연락처 '+contacts.length+'명</div>';
+  }
+  function viewContacts(){
+    return '<div class="phead"><span class="pspacer"></span><div class="ptitle">연락처</div><button class="pcirc" id="cAdd" aria-label="연락처 추가">'+IC.plus+'</button></div>'+
+      '<label class="psbar">'+IC.search+'<input id="cSearch" type="search" placeholder="검색" value="'+esc(cQuery)+'" autocomplete="off"></label>'+
+      '<div class="plist" id="cList">'+contactListHTML()+'</div>';
+  }
+  function viewDetail(){
+    const c=contacts.find(x=>x.id===contactId); if(!c){ contactId=null; return viewContacts(); }
+    return '<div class="phead"><button class="ppill" id="dBack">‹ 연락처</button><span></span><button class="ppill" id="dEdit">편집</button></div>'+
+      '<div class="pdetail">'+avHTML(c.name,'xl')+'<div class="dname">'+esc(c.name)+'</div>'+
+      '<div class="dact"><button class="dbtn" data-a="call">'+IC.phone+'전화</button></div>'+
+      '<div class="dcard"><div class="dl">휴대전화</div><div class="dv">'+esc(fmtNum(c.num))+'</div></div>'+
+      (c.memo ? '<div class="dcard"><div class="dl">메모</div><div class="dv">'+esc(c.memo)+'</div></div>' : '')+
+      '<button class="ddel" id="dDel">연락처 삭제</button></div>';
+  }
+  function renderPhone(){
+    const inDetail = ptab==='contacts' && contactId;
+    $('#pnav').classList.toggle('hide', !!inDetail);
+    $('#ptabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.t===ptab));
+    $('#pBody').innerHTML = ptab==='keypad' ? viewKeypad() : ptab==='recent' ? viewRecent() : (inDetail ? viewDetail() : viewContacts());
+  }
+  R.phone = function(){ ptab='keypad'; contactId=null; editing=false; dial=''; renderPhone(); };   // 앱을 열 때 항상 키패드부터
+
+  /* ----- 연락처 저장 / 편집 ----- */
+  function addContact(num){
+    openSheet({title:'새 연락처', saveLabel:'완료',
+      fields:[{key:'name',ph:'이름',req:true,max:20},{key:'num',type:'tel',ph:'전화번호',req:true,val:num||'',max:20},{key:'memo',type:'area',ph:'메모'}],
+      onSave:v=>{ contacts.push({id:uid(),name:v.name.trim(),num:norm(v.num),memo:String(v.memo||'').trim()}); DB.set('contacts',contacts); toast('연락처를 저장했어요'); renderPhone(); }});
+  }
+  function editContact(id){
+    const c=contacts.find(x=>x.id===id); if(!c) return;
+    openSheet({title:'연락처 편집', saveLabel:'완료',
+      fields:[{key:'name',ph:'이름',req:true,max:20,val:c.name},{key:'num',type:'tel',ph:'전화번호',req:true,max:20,val:c.num},{key:'memo',type:'area',ph:'메모',val:c.memo||''}],
+      onSave:v=>{ c.name=v.name.trim(); c.num=norm(v.num); c.memo=String(v.memo||'').trim(); DB.set('contacts',contacts); toast('저장했어요'); renderPhone(); }});
+  }
+
+  /* ----- 클릭 처리 ----- */
   $('#pBody').addEventListener('click', e=>{
-    if(e.target.id==='addNum'){ return addContact(dial); }
-    const k=e.target.dataset.k;
-    if(k){
-      if(k==='call'){ if(dial) startCall(dial); }
-      else if(k==='bk'){ dial=dial.slice(0,-1); R.phone(); }
-      else if(dial.length<20){ dial+=k; R.phone(); }
+    const t=e.target, kb=t.closest('[data-k]');
+    if(kb){
+      const v=kb.dataset.k;
+      if(v==='call'){ if(dial) startCall(dial); }
+      else if(v==='bk'){ dial=dial.slice(0,-1); renderPhone(); }
+      else if(dial.length<20){ dial+=v; renderPhone(); }
       return;
     }
-    const row=e.target.closest('.row'); if(row && !suppressClick) startCall(row.dataset.num);
+    if(t.closest('#addNum')) return addContact(dial);
+    if(t.closest('#pEdit')){ editing=!editing; return renderPhone(); }
+    if(t.closest('#pFilter')){ onlyKnown=!onlyKnown; return renderPhone(); }
+    if(t.closest('#cAdd')) return addContact('');
+    if(t.closest('#dBack')){ contactId=null; return renderPhone(); }
+    if(t.closest('#dEdit')) return editContact(contactId);
+    if(t.closest('#dDel')){
+      if(confirm('이 연락처를 삭제할까요?')){ contacts=contacts.filter(c=>c.id!==contactId); DB.set('contacts',contacts); contactId=null; renderPhone(); }
+      return;
+    }
+    const a=t.closest('[data-a]'), prow=t.closest('.prow');
+    if(a && prow){
+      if(a.dataset.a==='call') return startCall(prow.dataset.num);
+      if(a.dataset.a==='del'){ recents=recents.filter(r=>r.id!==prow.dataset.id); DB.set('recents',recents); return renderPhone(); }
+    }
+    if(a && a.dataset.a==='call' && contactId){ const c=contacts.find(x=>x.id===contactId); if(c) startCall(c.num); return; }
+    if(prow && !editing){ const c=findContact(prow.dataset.num); if(c){ ptab='contacts'; contactId=c.id; renderPhone(); } return; }
+    const crow=t.closest('.crow'); if(crow){ contactId=crow.dataset.id; renderPhone(); }
   });
-  // 연락처 길게 눌러 삭제
-  let lpT=null, suppressClick=false;
-  $('#pBody').addEventListener('touchstart', e=>{ const row=e.target.closest('.row[data-cid]'); if(!row) return;
-    lpT=setTimeout(()=>{ suppressClick=true; if(confirm('이 연락처를 삭제할까요?')){ contacts=contacts.filter(c=>c.id!==row.dataset.cid); DB.set('contacts',contacts); R.phone(); } setTimeout(()=>suppressClick=false,300); },650); }, {passive:true});
-  ['touchend','touchmove','touchcancel'].forEach(ev=>$('#pBody').addEventListener(ev, ()=>clearTimeout(lpT), {passive:true}));
-  $('#pBody').addEventListener('contextmenu', e=>{ const row=e.target.closest('.row[data-cid]'); if(!row) return; e.preventDefault();
-    if(confirm('이 연락처를 삭제할까요?')){ contacts=contacts.filter(c=>c.id!==row.dataset.cid); DB.set('contacts',contacts); R.phone(); } });
+  $('#pBody').addEventListener('input', e=>{ if(e.target.id==='cSearch'){ cQuery=e.target.value; $('#cList').innerHTML=contactListHTML(); } });
+  $('#ptabs').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; ptab=b.dataset.t; contactId=null; editing=false; renderPhone(); });
+  $('#pSearchBtn').addEventListener('click', ()=>{ ptab='contacts'; contactId=null; renderPhone(); const i=$('#cSearch'); if(i) i.focus(); });
 
-  function addContact(num){
-    openSheet({title:'새 연락처', fields:[{key:'name',ph:'이름',req:true,max:20},{key:'num',type:'tel',ph:'전화번호',req:true,val:num||'',max:20}],
-      onSave:v=>{ contacts.push({id:uid(),name:v.name.trim(),num:v.num.trim()}); DB.set('contacts',contacts); toast('연락처를 저장했어요'); R.phone(); }});
-  }
-  $('#contactAdd').addEventListener('click', ()=>addContact(''));
-
+  /* ----- 통화 ----- */
   function startCall(num){
     callWho=num; callStart=Date.now();
-    $('#callName').textContent = nameOf(num)||num; $('#callSt').textContent='전화 거는 중…';
+    $('#callName').textContent = nameOf(num)||fmtNum(num); $('#callSt').textContent='전화 거는 중…';
     $('#calling').classList.remove('hide');
     callT=setInterval(()=>{ const s=Math.floor((Date.now()-callStart)/1000); if(s>=2) $('#callSt').textContent=pad(Math.floor(s/60))+':'+pad(s%60); },500);
   }
@@ -766,7 +911,7 @@
     const dur=Math.max(0,Math.floor((Date.now()-callStart)/1000));
     recents.push({id:uid(),num:callWho,at:Date.now(),dur}); if(recents.length>100) recents.shift(); DB.set('recents',recents);
     callWho=null; $('#calling').classList.add('hide'); dial='';
-    if(!silent){ ptab='recent'; R.phone(); toast('통화 기록이 저장됐어요'); }
+    if(!silent){ ptab='recent'; renderPhone(); toast('통화 기록이 저장됐어요'); }
   }
   $('#callEnd').addEventListener('click', ()=>endCall(false));
 })();
