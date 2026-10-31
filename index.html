@@ -144,10 +144,39 @@
   .pd{padding:4px 14px 0;font-size:12px;color:var(--sub)}
 
   /* ================= 메모 ================= */
-  #app-notes{background:var(--bg)}
-  #nEdit{display:flex;flex-direction:column;flex:1;min-height:0;background:#fffdf5}
-  #nText{flex:1;border:0;outline:none;background:none;padding:6px 20px calc(var(--hb) + 10px);font-size:17px;line-height:1.5;resize:none}
-  .nlist .p{color:var(--sub)}
+  #app-notes{background:#f2f2f7}
+  .nview{display:flex;flex-direction:column;flex:1;min-height:0;position:relative}
+  .nview svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .nview svg.i3{fill:currentColor;stroke:none}
+  .ntop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(env(safe-area-inset-top) + 14px) 16px 8px;flex:none}
+  .cbtn{width:52px;height:52px;border-radius:50%;border:0;background:#fff;color:#000;box-shadow:0 4px 16px rgba(0,0,0,.08);
+    display:flex;align-items:center;justify-content:center;padding:0;flex:none}
+  .cbtn.lg{width:56px;height:56px}
+  .cbtn svg,.pillbtn svg,.tools svg{width:24px;height:24px}
+  .ntitle{text-align:center;display:flex;flex-direction:column;gap:2px;min-width:0}
+  .ntitle b{font-size:17px}
+  .ntitle span{font-size:15px;color:#8e8e93}
+  .pillbtn,.tools,.nsearch{background:#fff;border-radius:28px;box-shadow:0 4px 16px rgba(0,0,0,.08);display:flex;align-items:center}
+  .pillbtn{height:52px;padding:0 6px}
+  .pillbtn button,.tools button{border:0;background:none;color:#000;width:52px;height:52px;display:flex;align-items:center;justify-content:center;padding:0}
+  .tools{height:56px;padding:0 8px}
+  .cbtn:active,.pillbtn button:active,.tools button:active{opacity:.55}
+  .nscroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 16px 140px}
+  .nsec{font-size:22px;font-weight:700;margin:22px 4px 10px}
+  .ncard{background:#fff;border-radius:26px;overflow:hidden}
+  .nrow{padding:14px 20px;position:relative;cursor:pointer}
+  .nrow:active{background:rgba(120,120,128,.12)}
+  .nrow+.nrow::before{content:"";position:absolute;top:0;left:20px;right:20px;height:.5px;background:#d8d8dc}
+  .nrow .nt{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nrow .ns{font-size:15px;color:#8e8e93;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nrow .ns b{font-weight:400;color:#6c6c70;margin-right:8px}
+  .nrow .nf{display:flex;align-items:center;gap:6px;font-size:15px;color:#8e8e93;margin-top:4px}
+  .nempty{text-align:center;color:#8e8e93;padding:90px 20px;line-height:1.7}
+  .nbar{position:absolute;left:16px;right:16px;bottom:calc(var(--hb) + 10px);display:flex;justify-content:space-between;gap:12px;align-items:center;z-index:2}
+  .nsearch{flex:1;height:56px;padding:0 18px;gap:10px;color:#6c6c70}
+  .nsearch input{flex:1;min-width:0;border:0;outline:none;background:none;font-size:17px}
+  .nsearch svg{width:22px;height:22px;flex:none}
+  #nText{flex:1;border:0;outline:none;background:none;padding:18px 24px 150px;font-size:17px;line-height:1.55;resize:none;color:#333}
 
   /* ================= 갤러리 ================= */
   #app-gallery{background:#fff}
@@ -262,13 +291,42 @@
 
   <!-- 메모 -->
   <section class="app" id="app-notes">
-    <div id="nList" style="display:flex;flex-direction:column;flex:1;min-height:0">
-      <div class="appnav"><span style="min-width:44px"></span><div class="t"></div><button class="plus" id="noteAdd">✎</button></div>
-      <div class="scroll"><div class="big">메모</div><div id="noteRows"></div></div>
+    <!-- 목록 화면 -->
+    <div id="nList" class="nview">
+      <div class="ntop">
+        <button class="cbtn" id="nHome" aria-label="홈으로"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="ntitle"><b>모든 메모</b><span id="nCount"></span></div>
+        <button class="cbtn" id="nMore" aria-label="더보기"><svg class="i3" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
+      </div>
+      <div class="nscroll" id="noteRows"></div>
+      <div class="nbar">
+        <label class="nsearch">
+          <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+          <input id="nSearch" type="search" placeholder="검색" autocomplete="off">
+          <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0013 0M12 18v3"/></svg>
+        </label>
+        <button class="cbtn lg" id="noteAdd" aria-label="새 메모"><svg viewBox="0 0 24 24"><path d="M13 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-7"/><path d="M20.5 3.5a1.8 1.8 0 010 2.5L12 14.5l-3.5 1 1-3.5L18 3.5a1.8 1.8 0 012.5 0z"/></svg></button>
+      </div>
     </div>
-    <div id="nEdit" class="hide">
-      <div class="appnav"><button class="nb l" id="noteBack">‹ 메모</button><div class="t"></div><button class="nb r danger" id="noteDel">삭제</button></div>
-      <textarea id="nText" placeholder="메모를 입력하세요"></textarea>
+
+    <!-- 편집 화면 -->
+    <div id="nEdit" class="nview hide">
+      <div class="ntop">
+        <button class="cbtn" id="noteBack" aria-label="뒤로"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="pillbtn">
+          <button id="noteShare" aria-label="공유"><svg viewBox="0 0 24 24"><path d="M12 15V3M8 7l4-4 4 4M6 11H5a1 1 0 00-1 1v8a1 1 0 001 1h14a1 1 0 001-1v-8a1 1 0 00-1-1h-1"/></svg></button>
+          <button id="noteMore" aria-label="삭제 메뉴"><svg class="i3" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
+        </div>
+      </div>
+      <textarea id="nText"></textarea>
+      <div class="nbar">
+        <div class="tools">
+          <button id="tCheck" aria-label="체크리스트"><svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.5"/><circle cx="6" cy="17" r="2.5"/><path d="M12 7h9M12 17h9"/></svg></button>
+          <button id="tClip" aria-label="첨부"><svg viewBox="0 0 24 24"><path d="M20 11.5l-8 8a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/></svg></button>
+          <button id="tPen" aria-label="마크업"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 16l3.5-9 3.5 9M9.8 13h4.4"/></svg></button>
+        </div>
+        <button class="cbtn lg" id="noteNew" aria-label="새 메모"><svg viewBox="0 0 24 24"><path d="M13 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-7"/><path d="M20.5 3.5a1.8 1.8 0 010 2.5L12 14.5l-3.5 1 1-3.5L18 3.5a1.8 1.8 0 012.5 0z"/></svg></button>
+      </div>
     </div>
   </section>
 
@@ -543,32 +601,76 @@
   /* =====================================================
      메모
   ===================================================== */
-  let noteId=null, nTimer=null;
+  let noteId=null, nTimer=null, nQuery='';
+  const ICON_FOLDER='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>';
+  const WD=['일','월','화','수','목','금','토'];
+  const dayDiff = t => { const sod=x=>new Date(x.getFullYear(),x.getMonth(),x.getDate()).getTime(); return Math.round((sod(new Date())-sod(new Date(t)))/86400000); };
+  function noteDate(t){
+    const d=new Date(t), df=dayDiff(t);
+    if(df<=0){ const h=d.getHours(); return (h<12?'오전 ':'오후 ')+(h%12||12)+':'+pad(d.getMinutes()); }
+    if(df===1) return '어제';
+    if(df<7) return WD[d.getDay()]+'요일';
+    return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.';
+  }
+  const noteGroup = t => { const df=dayDiff(t); return df<=0?'오늘':df<=7?'이전 7일':df<=30?'이전 30일':'이전'; };
+
   R.notes = function(){
     const ed=!!noteId; $('#nList').classList.toggle('hide',ed); $('#nEdit').classList.toggle('hide',!ed);
-    if(!ed){
-      const items=notes.slice().sort((a,b)=>b.at-a.at);
-      $('#noteRows').innerHTML = items.length ? '<div class="group nlist">'+items.map(n=>{
-        const lines=n.text.split('\n'); const title=(lines[0]||'새로운 메모').trim()||'새로운 메모';
-        const rest=lines.slice(1).join(' ').trim();
-        return '<div class="row" data-id="'+n.id+'"><div class="b"><div class="n">'+esc(title)+'</div><div class="p">'+ago(n.at)+' '+esc(rest||'추가 텍스트 없음')+'</div></div></div>';
-      }).join('')+'</div>' : '<div class="empty">메모가 없어요<br>오른쪽 위 ✎ 로 새 메모를 써보세요</div>';
+    if(ed) return;
+    const q=nQuery.trim().toLowerCase();
+    const items=notes.filter(n=>n.text.trim() && (!q || n.text.toLowerCase().includes(q))).sort((a,b)=>b.at-a.at);
+    $('#nCount').textContent = notes.filter(n=>n.text.trim()).length+'개의 메모';
+    if(!items.length){
+      $('#noteRows').innerHTML='<div class="nempty">'+(q?'검색 결과가 없어요':'메모가 없어요<br>오른쪽 아래 버튼으로 새 메모를 써보세요')+'</div>'; return;
     }
+    const groups={};
+    items.forEach(n=>{ const g=noteGroup(n.at); (groups[g]=groups[g]||[]).push(n); });
+    $('#noteRows').innerHTML = ['오늘','이전 7일','이전 30일','이전'].filter(g=>groups[g]).map(g=>
+      '<div class="nsec">'+g+'</div><div class="ncard">'+groups[g].map(n=>{
+        const lines=n.text.split('\n').map(s=>s.trim()).filter(Boolean);
+        const title=lines[0]||'새로운 메모', rest=lines.slice(1).join(' ');
+        return '<div class="nrow" data-id="'+n.id+'"><div class="nt">'+esc(title)+'</div>'+
+               '<div class="ns"><b>'+noteDate(n.at)+'</b>'+esc(rest||'추가 텍스트 없음')+'</div>'+
+               '<div class="nf">'+ICON_FOLDER+'메모</div></div>';
+      }).join('')+'</div>').join('');
   };
-  function openNote(id){ noteId=id; R.notes(); const n=notes.find(x=>x.id===id); $('#nText').value=n?n.text:''; setTimeout(()=>$('#nText').focus(),50); }
+
+  function openNote(id, focus){
+    noteId=id; R.notes(); const n=notes.find(x=>x.id===id); $('#nText').value=n?n.text:'';
+    if(focus) setTimeout(()=>$('#nText').focus(),50);
+  }
   function flushNote(){
     clearTimeout(nTimer); const n=notes.find(x=>x.id===noteId); if(!n) return;
     n.text=$('#nText').value; n.at=Date.now(); DB.set('notes',notes);
   }
-  $('#noteAdd').addEventListener('click', ()=>{ const n={id:uid(),text:'',at:Date.now()}; notes.push(n); openNote(n.id); });
-  $('#noteRows').addEventListener('click', e=>{ const r=e.target.closest('.row'); if(r) openNote(r.dataset.id); });
-  $('#nText').addEventListener('input', ()=>{ clearTimeout(nTimer); nTimer=setTimeout(flushNote,400); });
-  $('#noteBack').addEventListener('click', ()=>{
+  function leaveNote(){
     flushNote(); const n=notes.find(x=>x.id===noteId);
     if(n && !n.text.trim()){ notes=notes.filter(x=>x!==n); DB.set('notes',notes); }
-    noteId=null; R.notes(); toast('메모가 저장됐어요');
+    noteId=null; document.activeElement && document.activeElement.blur(); R.notes();
+  }
+  function newNote(){ const n={id:uid(),text:'',at:Date.now()}; notes.push(n); openNote(n.id,true); }
+
+  $('#nHome').addEventListener('click', closeApp);
+  $('#nMore').addEventListener('click', ()=>{ if(notes.length && confirm('모든 메모를 삭제할까요? 되돌릴 수 없어요.')){ notes=[]; DB.set('notes',notes); R.notes(); } });
+  $('#nSearch').addEventListener('input', e=>{ nQuery=e.target.value; R.notes(); });
+  $('#noteAdd').addEventListener('click', newNote);
+  $('#noteRows').addEventListener('click', e=>{ const r=e.target.closest('.nrow'); if(r) openNote(r.dataset.id,false); });
+  $('#nText').addEventListener('input', ()=>{ clearTimeout(nTimer); nTimer=setTimeout(flushNote,400); });
+  $('#noteBack').addEventListener('click', leaveNote);
+  $('#noteNew').addEventListener('click', ()=>{ leaveNote(); newNote(); });
+  $('#noteMore').addEventListener('click', ()=>{
+    if(confirm('이 메모를 삭제할까요?')){ clearTimeout(nTimer); notes=notes.filter(x=>x.id!==noteId); DB.set('notes',notes); noteId=null; R.notes(); }
   });
-  $('#noteDel').addEventListener('click', ()=>{ if(confirm('이 메모를 삭제할까요?')){ clearTimeout(nTimer); notes=notes.filter(x=>x.id!==noteId); DB.set('notes',notes); noteId=null; R.notes(); } });
+  $('#noteShare').addEventListener('click', async ()=>{
+    const t=$('#nText').value; if(!t.trim()) return;
+    try{ if(navigator.share){ await navigator.share({text:t}); } else { await navigator.clipboard.writeText(t); toast('메모를 복사했어요'); } }catch(e){}
+  });
+  $('#tCheck').addEventListener('click', ()=>{
+    const ta=$('#nText'), v=ta.value, s=ta.selectionStart, ls=s>0 ? v.lastIndexOf('\n',s-1)+1 : 0;
+    ta.value=v.slice(0,ls)+'☐ '+v.slice(ls); ta.selectionStart=ta.selectionEnd=s+2; ta.focus(); ta.dispatchEvent(new Event('input'));
+  });
+  $('#tClip').addEventListener('click', ()=>toast('첨부는 아직 지원하지 않아요'));
+  $('#tPen').addEventListener('click', ()=>toast('마크업은 아직 지원하지 않아요'));
 
   /* =====================================================
      갤러리
