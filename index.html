@@ -523,7 +523,7 @@
   let chats = DB.get('chats',[]), posts = DB.get('posts',[]), notes = DB.get('notes',[]),
       photos = DB.get('photos',[]), recents = DB.get('recents',[]), contacts = DB.get('contacts',[]);
   /* ---------- 기본 데이터 (링크로 들어온 모든 사람에게 처음부터 보임) ---------- */
-  const SEED_VERSION = 'v2';     // 아래 데이터를 고친 뒤 'v2', 'v3'… 로 올리면 모두에게 새로 반영돼요
+  const SEED_VERSION = 'v3';     // 아래 데이터를 고친 뒤 'v2', 'v3'… 로 올리면 모두에게 새로 반영돼요
   const T = (m,d,h,mi) => new Date(2026,m-1,d,h,mi).getTime();
   const NUM = '01000000000';
   const rec = (n,cid,at,dur) => ({id:'seed-r'+n, cid, num:NUM, at, dur});
