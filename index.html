@@ -127,25 +127,36 @@
   .plus{background:none;border:0;color:var(--blue);font-size:30px;line-height:1;padding:0 4px;min-width:44px;text-align:right}
 
   /* ================= 채팅 ================= */
-  #app-chat{background:#dfe7f1}
-  #app-chat .appnav{background:rgba(223,231,241,.92)}
+  #app-chat{background:#fff}
   #chatList{display:flex;flex-direction:column;flex:1;min-height:0;background:var(--bg)}
   #chatRoom{display:flex;flex-direction:column;flex:1;min-height:0}
-  #cmsgs{flex:1;overflow-y:auto;padding:8px 12px 12px;display:flex;flex-direction:column;gap:6px}
-  .m{display:flex;gap:8px;max-width:84%;align-items:flex-end}
-  .m.me{align-self:flex-end;flex-direction:row-reverse}
-  .m .av{width:36px;height:36px;font-size:15px;align-self:flex-start}
-  .m .nm{font-size:12px;color:#555;margin:0 4px 3px}
-  .bub{padding:8px 12px;border-radius:16px;font-size:16px;line-height:1.38;white-space:pre-wrap;word-break:break-word;background:#fff}
-  .me .bub{background:#ffe778;border-top-right-radius:4px}
-  .them .bub{border-top-left-radius:4px}
-  .m .mt{font-size:11px;color:#6b7785;flex:none}
-  .cbar{display:flex;gap:8px;align-items:center;padding:8px 10px calc(var(--hb) + 6px);background:#fff;border-top:.5px solid var(--line)}
-  .cbar input{flex:1;border:0;background:#f0f1f3;border-radius:18px;padding:9px 14px;outline:none;font-size:16px}
-  .who{border:0;background:#e8eaee;border-radius:14px;font-size:13px;padding:7px 11px;font-weight:600;flex:none}
-  .who.me{background:#ffe778}
-  .sendb{border:0;background:var(--blue);color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;flex:none}
-  .sendb:disabled{background:#c7c7cc}
+  /* 채팅방 (아이메시지 스타일) */
+  .rnav{display:flex;align-items:flex-start;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 14px) 14px 8px;flex:none;background:#fff;border-bottom:.5px solid #ececef}
+  .rbtn{width:46px;height:46px;border-radius:50%;border:.5px solid #e3e3e6;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.08);display:grid;place-items:center;padding:0;color:#111}
+  .rctr{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+  .rctr .av{width:52px;height:52px;font-size:22px}
+  .rname{background:#fff;border:.5px solid #e3e3e6;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:4px 11px;font-weight:600;font-size:14px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rname::after{content:" ›";color:#aaa;font-weight:400}
+  #cmsgs{flex:1;overflow-y:auto;padding:8px 16px 12px;display:flex;flex-direction:column;gap:3px;background:#fff}
+  .stamp{align-self:center;font-size:12px;color:#8e8e93;margin:14px 0 6px}
+  .m{display:flex;max-width:78%}
+  .m.me{align-self:flex-end}
+  .m.them{align-self:flex-start}
+  .m.last{margin-bottom:7px}
+  .bub{position:relative;padding:8px 14px;border-radius:19px;font-size:17px;line-height:1.3;white-space:pre-wrap;word-break:break-word;background:#e9e9eb;color:#000}
+  .me .bub{background:#3b8df5;color:#fff}
+  .bub.tail::before,.bub.tail::after{content:"";position:absolute;bottom:0;height:18px}
+  .me .bub.tail::before{right:-7px;width:20px;background:#3b8df5;border-bottom-left-radius:16px 14px}
+  .me .bub.tail::after{right:-26px;width:26px;background:#fff;border-bottom-left-radius:10px}
+  .them .bub.tail::before{left:-7px;width:20px;background:#e9e9eb;border-bottom-right-radius:16px 14px}
+  .them .bub.tail::after{left:-26px;width:26px;background:#fff;border-bottom-right-radius:10px}
+  .cbar{display:flex;gap:10px;align-items:center;padding:8px 14px calc(var(--hb) + 6px);background:#fff}
+  .who{width:46px;height:46px;border-radius:50%;border:.5px solid #d6d6da;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.08);font-size:13px;font-weight:600;flex:none;padding:0;color:#555}
+  .who.me{color:#3b8df5}
+  .cfield{flex:1;display:flex;align-items:center;gap:6px;height:46px;border:.5px solid #d6d6da;border-radius:23px;padding:0 6px 0 16px;box-shadow:0 1px 5px rgba(0,0,0,.06);min-width:0}
+  .cfield input{flex:1;min-width:0;border:0;outline:0;background:none;font-size:17px}
+  .sendb{border:0;background:#3b8df5;color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;flex:none}
+  .sendb:disabled{opacity:0}
 
   /* ================= 피드 ================= */
   #app-feed{background:#fff}
@@ -393,13 +404,19 @@
       <div class="appnav"><span style="min-width:44px"></span><div class="t"></div><button class="plus" id="roomAdd">＋</button></div>
       <div class="scroll"><div class="big">채팅</div><div id="roomRows"></div></div>
     </div>
-    <div id="chatRoom" class="hide">
-      <div class="appnav"><button class="nb l" id="roomBack">‹ 목록</button><div class="t" id="roomName"></div><button class="nb r danger" id="roomDel">삭제</button></div>
+<div id="chatRoom" class="hide">
+      <div class="rnav">
+        <button class="rbtn" id="roomBack"><svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg></button>
+        <div class="rctr"><div class="av" id="roomAv"></div><div class="rname" id="roomName"></div></div>
+        <button class="rbtn" id="roomDel" style="color:#ff3b30"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3"/></svg></button>
+      </div>
       <div id="cmsgs"></div>
       <div class="cbar">
         <button class="who me" id="who">나</button>
-        <input id="cText" placeholder="메시지 입력" autocomplete="off">
-        <button class="sendb" id="cSend" disabled>↑</button>
+        <div class="cfield">
+          <input id="cText" placeholder="iMessage" autocomplete="off">
+          <button class="sendb" id="cSend" disabled>↑</button>
+        </div>
       </div>
     </div>
   </section>
@@ -523,7 +540,7 @@
   let chats = DB.get('chats',[]), posts = DB.get('posts',[]), notes = DB.get('notes',[]),
       photos = DB.get('photos',[]), recents = DB.get('recents',[]), contacts = DB.get('contacts',[]);
   /* ---------- 기본 데이터 (링크로 들어온 모든 사람에게 처음부터 보임) ---------- */
-  const SEED_VERSION = 'v3';     // 아래 데이터를 고친 뒤 'v2', 'v3'… 로 올리면 모두에게 새로 반영돼요
+  const SEED_VERSION = 'v4';     // 아래 데이터를 고친 뒤 'v2', 'v3'… 로 올리면 모두에게 새로 반영돼요
   const T = (m,d,h,mi) => new Date(2026,m-1,d,h,mi).getTime();
   const NUM = '01000000000';
   const rec = (n,cid,at,dur) => ({id:'seed-r'+n, cid, num:NUM, at, dur});
@@ -556,22 +573,42 @@
   ];
   // 모두에게 보일 캘린더 일정. 예: {date:'2026-11-05', title:'제목', time:'09:00~10:50'}
   const SEED_EVENTS = [
-
-{date:'2026-10-12', title:'희귀병 연구소 방문', time:'14:00~15:00'}
-{date:'2026-11-09', title:'희귀병 연구소 방문', time:'14:00~15:00'}
-{date:'2026-12-14', title:'희귀병 연구소 방문', time:'14:00~15:00'}
-{date:'2027-01-11', title:'희귀병 연구소 방문', time:'14:00~15:00'}
-{date:'2026-11-11', title:'라라랜드 토요일 3시 예매', time:'18:00~19:00'}
-{date:'2026-11-14', title:'데이트', time:'12:00~22:00'}
-{date:'2027-01-14', title:'송화누나 생일', time:'00:00~23:59'}
-
+  {date:'2026-10-12', title:'희귀병 연구소 방문', time:'14:00~15:00'},
+  {date:'2026-11-09', title:'희귀병 연구소 방문', time:'14:00~15:00'},
+  {date:'2026-12-14', title:'희귀병 연구소 방문', time:'14:00~15:00'},
+  {date:'2027-01-11', title:'희귀병 연구소 방문', time:'14:00~15:00'},
+  {date:'2026-11-11', title:'라라랜드 토요일 3시 예매', time:'18:00~19:00'},
+  {date:'2026-11-14', title:'데이트', time:'12:00~22:00'},
+  {date:'2027-01-14', title:'송화누나 생일'}, 
 ];
+
+  const S = (m,d,h,mi,sec) => new Date(2026,m-1,d,h,mi,sec).getTime();
+  const SEED_CHATS = [
+    { id:'seed-room1', name:'송화누나', created:S(10,30,23,31,0), msgs:[
+      {from:'me',   text:'누나 잘자',           at:S(10,30,23,31,0)},
+
+      {from:'me',   text:'누나 일어났어?',      at:S(10,31, 6,32, 0)},
+      {from:'me',   text:'모닝콜 필요해?',      at:S(10,31, 6,32,12)},
+      {from:'me',   text:'빨리 일어나',         at:S(10,31, 6,32,25)},
+      {from:'me',   text:'깨워달라며',          at:S(10,31, 6,32,41)},
+      {from:'them', text:'일어났어',            at:S(10,31, 6,34,10)},
+      {from:'them', text:'메시지 그만',         at:S(10,31, 6,34,18)},
+      {from:'me',   text:'ㅡㅡ',                at:S(10,31, 6,34,50)},
+      {from:'me',   text:'기껏 깨워줬더니',     at:S(10,31, 6,35, 3)},
+
+      {from:'me',   text:'나 오늘 일 끝났는데', at:S(10,31,14, 2, 0)},
+      {from:'me',   text:'두루미관 가도 돼?',   at:S(10,31,14, 2,15)},
+      {from:'me',   text:'간다?',               at:S(10,31,14, 2,31)}
+    ]}
+  ];
 
   if(DB.get('seed','') !== SEED_VERSION){
     const first = !DB.get('seed','');
     const names = new Set(SEED_CONTACTS.map(c=>c.name));
     contacts = contacts.filter(c=>!String(c.id).startsWith('seed-') && !names.has(c.name)).concat(SEED_CONTACTS);
     recents  = (first ? [] : recents.filter(r=>!String(r.id).startsWith('seed-'))).concat(SEED_RECENTS);
+    chats = chats.filter(r=>!String(r.id).startsWith('seed-')).concat(SEED_CHATS);
+    DB.set('chats',chats);
     DB.set('contacts',contacts); DB.set('recents',recents); DB.set('seed',SEED_VERSION);
   }
 
@@ -735,17 +772,31 @@
       }).join('')+'</div>' : '<div class="empty">채팅방이 없어요<br>오른쪽 위 ＋ 로 새 채팅방을 만들어보세요</div>';
     } else {
       const r=chats.find(x=>x.id===roomId); if(!r){ roomId=null; return R.chat(); }
-      $('#roomName').textContent=r.name; renderMsgs();
+      $('#roomName').textContent=r.name; const av=$('#roomAv'); av.textContent=r.name[0]; av.style.background=color(r.name); renderMsgs();
     }
   };
   const lastAt = r => r.msgs.length ? r.msgs[r.msgs.length-1].at : r.created;
+  const stampOf = t => {
+    const d=new Date(t), n=new Date(), WK=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+    const day0=x=>new Date(x.getFullYear(),x.getMonth(),x.getDate()).getTime();
+    const diff=Math.round((day0(n)-day0(d))/86400000), h=d.getHours();
+    const ap=(h<12?'오전 ':'오후 ')+(h%12||12)+':'+pad(d.getMinutes());
+    if(diff===0) return '오늘 '+ap;
+    if(diff===1) return '어제 '+ap;
+    if(diff>1 && diff<7) return WK[d.getDay()]+' '+h+':'+pad(d.getMinutes());
+    return (d.getMonth()+1)+'월 '+d.getDate()+'일 '+ap;
+  };
   function renderMsgs(){
     const r=chats.find(x=>x.id===roomId); if(!r) return;
-    $('#cmsgs').innerHTML = r.msgs.map(m=>{
-      if(m.from==='me') return '<div class="m me"><div class="bub">'+esc(m.text)+'</div><div class="mt">'+hm(m.at)+'</div></div>';
-      return '<div class="m them"><div class="av" style="background:'+color(r.name)+'">'+esc(r.name[0])+'</div><div><div class="nm">'+esc(r.name)+'</div>'+
-             '<div style="display:flex;gap:6px;align-items:flex-end"><div class="bub">'+esc(m.text)+'</div><div class="mt">'+hm(m.at)+'</div></div></div></div>';
-    }).join('');
+    const GAP=30*60*1000; let html='', prev=null;
+    r.msgs.forEach((m,i)=>{
+      const nx=r.msgs[i+1];
+      if(!prev || m.at-prev.at>GAP) html+='<div class="stamp">'+stampOf(m.at)+'</div>';
+      const last = !nx || nx.from!==m.from || nx.at-m.at>GAP;
+      html+='<div class="m '+(m.from==='me'?'me':'them')+(last?' last':'')+'"><div class="bub'+(last?' tail':'')+'">'+esc(m.text)+'</div></div>';
+      prev=m;
+    });
+    $('#cmsgs').innerHTML = html;
     const s=$('#cmsgs'); s.scrollTop=s.scrollHeight;
   }
   $('#roomAdd').addEventListener('click', ()=>openSheet({title:'새 채팅방', saveLabel:'만들기',
