@@ -200,6 +200,8 @@
   .sterm{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;padding:15px 18px;font-size:17px;text-align:left;color:#000;position:relative}
   .sterm+.sterm::before{content:"";position:absolute;top:0;left:50px;right:0;height:.5px;background:var(--line)}
   .sterm svg{flex:none;color:#8e8e93}
+  .sterm.locked{opacity:.4}
+  .sterm.locked .lk{margin-left:auto}
   .sempty{padding:22px;color:var(--sub);text-align:center;font-size:15px}
   .spriv{display:flex;align-items:center;gap:20px;background:#fff;border-radius:26px;padding:22px}
   .spn{display:flex;align-items:center;gap:4px;font-size:32px;font-weight:500;flex:none}
@@ -1379,13 +1381,15 @@
   let sQuery = '';
   $('#sPrivN').textContent = PRIVACY_COUNT; $('#sPrivT').textContent = PRIVACY_COUNT;
   const gUrl = q => 'https://www.google.com/search?q='+encodeURIComponent(q);
+  const LOCK = '<svg class="lk" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>';
+  const termBtn = (s,i) => '<button class="sterm'+(s.locked?' locked':'')+'" data-i="'+i+'">'+MAG+'<span>'+esc(s.q)+'</span>'+(s.locked?LOCK:'')+'</button>';
   function renderTerms(){
-    $('#sTerms').innerHTML = SEED_SEARCHES.length ? SEED_SEARCHES.map((s,i)=>'<button class="sterm" data-i="'+i+'">'+MAG+'<span>'+esc(s.q)+'</span></button>').join('') : '<div class="sempty">등록된 검색어가 없어요</div>';
+    $('#sTerms').innerHTML = SEED_SEARCHES.length ? SEED_SEARCHES.map((s,i)=>termBtn(s,i)).join('') : '<div class="sempty">등록된 검색어가 없어요</div>';
   }
   function sSuggest(){
     const raw=$('#sQ').value.trim(), q=raw.toLowerCase();
     const list=SEED_SEARCHES.map((s,i)=>({s,i})).filter(o=>!q || o.s.q.toLowerCase().includes(q));
-    $('#sSug').innerHTML = '<div class="sterms">'+list.map(o=>'<button class="sterm" data-i="'+o.i+'">'+MAG+'<span>'+esc(o.s.q)+'</span></button>').join('')+
+    $('#sSug').innerHTML = '<div class="sterms">'+list.map(o=>termBtn(o.s,o.i)).join('')+
       (raw ? '<button class="sterm" data-free="1">'+MAG+'<span>“'+esc(raw)+'” 검색</span></button>' : '')+'</div>';
     $('#sSug').classList.remove('hide');
   }
@@ -1396,6 +1400,7 @@
   function sSearch(text, idx){
     const raw=String(text).trim(); if(!raw) return;
     const reg = idx!=null ? SEED_SEARCHES[idx] : SEED_SEARCHES.find(s=>s.q.toLowerCase()===raw.toLowerCase());
+    if(reg && reg.locked){ toast('열 수 없는 검색어예요'); return; }
     $('#sQ').blur(); $('#sSug').classList.add('hide');
     if(!reg){ $('#sQ').value=raw; window.open(gUrl(raw),'_blank','noopener'); toast('새 탭에서 검색했어요'); return; }
     sQuery=reg.q; $('#sQ').value=reg.q;
