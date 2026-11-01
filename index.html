@@ -26,8 +26,18 @@
   }
 
   /* ================= 잠금화면 ================= */
-  #lock,#home{position:absolute;inset:0;color:#fff;
-    background:linear-gradient(160deg,#5b6dee 0%,#9b59d0 45%,#ff7eb3 100%)}
+#lock,#home{
+  position:absolute;
+  inset:0;
+  color:#fff;
+}
+
+#home{
+  background-image:url("wallpaper.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
   #lock{background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url("lock.jpg") center/cover no-repeat}
   #lock{z-index:50;transition:transform .5s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;align-items:center;cursor:pointer}
   #lock.gone{transform:translateY(-105%);pointer-events:none}
@@ -131,19 +141,19 @@
   #chatList{display:flex;flex-direction:column;flex:1;min-height:0;background:var(--bg)}
   #chatRoom{display:flex;flex-direction:column;flex:1;min-height:0}
   /* 채팅방 (아이메시지 스타일) */
-  .rnav{display:flex;align-items:flex-start;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 14px) 14px 8px;flex:none;background:#fff;border-bottom:.5px solid #ececef}
+  .rnav{display:flex;align-items:flex-start;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 10px) 14px 6px;flex:none;background:#fff;border-bottom:.5px solid #ececef}
   .rbtn{width:46px;height:46px;border-radius:50%;border:.5px solid #e3e3e6;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.08);display:grid;place-items:center;padding:0;color:#111}
-  .rctr{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
-  .rctr .av{width:52px;height:52px;font-size:22px}
-  .rname{background:#fff;border:.5px solid #e3e3e6;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:4px 11px;font-weight:600;font-size:14px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rctr{display:flex;flex-direction:column;align-items:center;gap:0;min-width:0}
+  .rctr .av{width:58px;height:58px;font-size:24px}
+  .rname{position:relative;z-index:1;margin-top:-14px;background:#fff;border:.5px solid #e3e3e6;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:4px 11px;font-weight:600;font-size:14px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .rname::after{content:" ›";color:#aaa;font-weight:400}
-  #cmsgs{flex:1;overflow-y:auto;padding:8px 16px 12px;display:flex;flex-direction:column;gap:3px;background:#fff}
+  #cmsgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 16px 12px;display:flex;flex-direction:column;gap:6px;background:#fff}
   .stamp{align-self:center;font-size:12px;color:#8e8e93;margin:14px 0 6px}
   .m{display:flex;max-width:78%}
   .m.me{align-self:flex-end}
   .m.them{align-self:flex-start}
-  .m.last{margin-bottom:7px}
-  .bub{position:relative;padding:8px 14px;border-radius:19px;font-size:17px;line-height:1.3;white-space:pre-wrap;word-break:break-word;background:#e9e9eb;color:#000}
+  .m.last{margin-bottom:6px}
+  .bub{position:relative;padding:9px 14px;border-radius:19px;font-size:16px;line-height:1.3;white-space:pre-wrap;word-break:break-word;background:#e9e9eb;color:#000}
   .me .bub{background:#3b8df5;color:#fff}
   .bub.tail::before,.bub.tail::after{content:"";position:absolute;bottom:0;height:18px}
   .me .bub.tail::before{right:-7px;width:20px;background:#3b8df5;border-bottom-left-radius:16px 14px}
@@ -157,6 +167,31 @@
   .cfield input{flex:1;min-width:0;border:0;outline:0;background:none;font-size:17px}
   .sendb{border:0;background:#3b8df5;color:#fff;width:34px;height:34px;border-radius:50%;font-size:18px;flex:none}
   .sendb:disabled{opacity:0}
+
+  /* ================= 유튜브 ================= */
+  #app-youtube{background:#fff}
+  #yList{display:flex;flex-direction:column;flex:1;min-height:0}
+  #yPlayer{display:flex;flex-direction:column;flex:1;min-height:0}
+  .ycard{margin:0 16px 18px;cursor:pointer;position:relative}
+  .ycard img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#ddd;display:block}
+  .ycard b{display:block;margin-top:8px;font-size:15px;line-height:1.35;font-weight:600}
+  .ycard .xdel{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:13px}
+  #yFrameBox{width:100%;aspect-ratio:16/9;background:#000;flex:none}
+  #yFrameBox iframe{width:100%;height:100%;border:0;display:block}
+  #yTitle{padding:14px 16px;font-size:17px;font-weight:600;line-height:1.4}
+
+  /* ================= 사파리 ================= */
+  #app-safari{background:#fff;padding-top:calc(env(safe-area-inset-top) + 14px)}
+  #sPage{flex:1;min-height:0;position:relative;background:#fff}
+  #sFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+  #sHome{position:absolute;inset:0;overflow-y:auto;padding:20px 18px;background:#f2f2f7}
+  .sbm{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 8px}
+  .sbm button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:#000;padding:0}
+  .sbm .bi{width:60px;height:60px;border-radius:14px;display:grid;place-items:center;color:#fff;font-size:24px;font-weight:600}
+  .sbar{display:flex;gap:6px;align-items:center;padding:8px 12px calc(var(--hb) + 6px);background:rgba(249,249,249,.96);border-top:.5px solid var(--line);flex:none}
+  .sbar input{flex:1;min-width:0;height:40px;border:0;border-radius:12px;background:#e9e9ee;padding:0 12px;font-size:16px;text-align:center;outline:0}
+  .sbar button{border:0;background:none;font-size:22px;color:var(--blue);width:36px;height:40px;flex:none;padding:0}
+
 
   /* ================= 피드 ================= */
   #app-feed{background:#fff}
@@ -418,6 +453,34 @@
           <button class="sendb" id="cSend" disabled>↑</button>
         </div>
       </div>
+    </div>
+  </section>
+
+
+  <!-- 유튜브 -->
+  <section class="app" id="app-youtube">
+    <div id="yList">
+      <div class="appnav"><span style="min-width:44px"></span><div class="t"></div><button class="plus" id="yAdd">＋</button></div>
+      <div class="scroll"><div class="big">유튜브</div><div id="yRows"></div></div>
+    </div>
+    <div id="yPlayer" class="hide">
+      <div class="appnav"><button class="nb l" id="yBack">‹ 목록</button><div class="t"></div><span style="min-width:44px"></span></div>
+      <div id="yFrameBox"></div>
+      <div id="yTitle"></div>
+    </div>
+  </section>
+
+  <!-- 사파리 -->
+  <section class="app" id="app-safari">
+    <div id="sPage">
+      <div id="sHome"><div class="big" style="padding:0 0 14px">즐겨찾기</div><div class="sbm" id="sBm"></div></div>
+      <iframe id="sFrame" class="hide" src="about:blank" sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe>
+    </div>
+    <div class="sbar">
+      <button id="sHomeBtn" title="처음 화면">⌂</button>
+      <input id="sUrl" placeholder="검색하거나 주소 입력" autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url">
+      <button id="sExt" title="새 탭에서 열기">↗</button>
+      <button id="sStar" title="즐겨찾기">☆</button>
     </div>
   </section>
 
@@ -683,7 +746,11 @@
     {id:'phone',  name:'전화',  img:'icon-phone.png',  bg:'linear-gradient(#4cd964,#22b33e)',
       svg:'<svg viewBox="0 0 24 24"><path fill="#fff" d="M6.6 10.8c1.4 2.8 3.800 5.100 6.600 6.600l2.200-2.200c.3-.3.7-.4 1-.2 1.100.4 2.300.6 3.600.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.600 21 3 13.400 3 4c0-.6.4-1 1-1h3.500c.6 0 1 .4 1 1 0 1.300.2 2.500.6 3.600.1.3 0 .7-.2 1z"/></svg>'},
     {id:'calendar', name:'캘린더', bg:'#fff', svg:'',
-      html:()=>{ const d=new Date(); return '<div class="calico"><b>'+DAYS[d.getDay()]+'</b><span>'+d.getDate()+'</span></div>'; }}
+      html:()=>{ const d=new Date(); return '<div class="calico"><b>'+DAYS[d.getDay()]+'</b><span>'+d.getDate()+'</span></div>'; }},
+    {id:'youtube', name:'유튜브', img:'icon-youtube.png', bg:'#2b2b2e',
+      svg:'<svg viewBox="0 0 24 24"><path fill="#fff" d="M8 5.500v13l11-6.500z"/></svg>'},
+    {id:'safari',  name:'사파리', img:'icon-safari.png',  bg:'linear-gradient(#ffffff,#e3ecf8)',
+      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#2f7cf6" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>'}
   ];
   $('#grid').innerHTML = APPS.map(a =>
     '<button class="ico'+(a.locked?' locked':'')+'" data-app="'+a.id+'"'+(a.locked?' disabled':'')+'><div class="sq" style="background:'+a.bg+'">'+(a.html?a.html():a.svg)+
@@ -714,6 +781,8 @@
   function closeApp(){
     if(!current) return;
     if(current==='phone') endCall(true);
+    if(current==='youtube') ytStop();
+    if(current==='safari') sHomeShow();
     $('#app-'+current).classList.remove('open'); current=null;
     $('#hb').classList.remove('on','dark'); closeSheet(); document.activeElement && document.activeElement.blur();
   }
@@ -1184,6 +1253,80 @@
     openApp('calendar');
   });
   refreshCal(); setInterval(refreshCal,30000);
+
+  /* =====================================================
+     유튜브
+  ===================================================== */
+  // 모두에게 보일 영상. id = 유튜브 주소의 영상 ID(11글자). 예: {id:'dQw4w9WgXcQ', title:'제목'},
+  const SEED_VIDEOS = [
+
+{id:'aJy3yxiM2hU', title:'감독은 천재인가.. 역대급 반전영화 [영화리뷰/결말포함]'},
+{id:'eeY78BD545I', title:'🔥평점 9.7🔥 "로맨스 영화의 정점" 이거 아직도 안 본 사람 있나요?'},
+{id:'VcBBvkC_OIc', title:'전기뱀장어(ElectricEels) - 미로(Maze)'},
+
+  ];
+  let videos = DB.get('videos',[]);
+  const ytId = u => { u=String(u).trim(); const m=u.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|live\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(u) ? u : null); };
+  function renderYt(){
+    const all = SEED_VIDEOS.map(v=>Object.assign({seed:true},v)).concat(videos);
+    $('#yRows').innerHTML = all.length ? all.map(v=>
+      '<div class="ycard" data-id="'+v.id+'"><img loading="lazy" src="https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg" alt=""><b>'+esc(v.title||'영상')+'</b>'+
+      (v.seed?'':'<button class="xdel" data-del="'+v.uid+'">✕</button>')+'</div>').join('')
+      : '<div class="empty">영상이 없어요<br>오른쪽 위 ＋ 로 유튜브 링크를 추가해보세요</div>';
+  }
+  function ytPlay(id,title){
+    $('#yList').classList.add('hide'); $('#yPlayer').classList.remove('hide');
+    $('#yFrameBox').innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    $('#yTitle').textContent=title;
+  }
+  function ytStop(){ $('#yFrameBox').innerHTML=''; $('#yPlayer').classList.add('hide'); $('#yList').classList.remove('hide'); }
+  R.youtube = function(){ ytStop(); renderYt(); };
+  $('#yRows').addEventListener('click', e=>{
+    const d=e.target.closest('[data-del]');
+    if(d){ if(confirm('이 영상을 목록에서 지울까요?')){ videos=videos.filter(v=>v.uid!==d.dataset.del); DB.set('videos',videos); renderYt(); } return; }
+    const c=e.target.closest('.ycard'); if(c) ytPlay(c.dataset.id, c.querySelector('b').textContent);
+  });
+  $('#yBack').addEventListener('click', ytStop);
+  $('#yAdd').addEventListener('click', ()=>openSheet({title:'영상 추가', saveLabel:'추가',
+    fields:[{key:'title',ph:'제목 (선택)',max:60},{key:'url',ph:'유튜브 링크 붙여넣기',req:true,max:200}],
+    onSave:v=>{ const id=ytId(v.url); if(!id){ toast('유튜브 링크가 아니에요'); return; }
+      videos.unshift({uid:uid(),id,title:(v.title||'').trim()||'영상'}); DB.set('videos',videos); renderYt(); }}));
+
+  /* =====================================================
+     사파리
+  ===================================================== */
+  // 모두에게 보일 즐겨찾기. ext:true 이면 앱 안이 아니라 새 탭으로 열어요
+  const SEED_BOOKMARKS = [
+    {name:'위키백과', url:'https://ko.wikipedia.org'},
+    {name:'구글',     url:'https://www.google.com', ext:true}
+  ];
+  let bms = DB.get('bookmarks',[]), sCur='';
+  const allBm = () => SEED_BOOKMARKS.concat(bms);
+  function renderBm(){
+    $('#sBm').innerHTML = allBm().map((b,i)=>'<button data-i="'+i+'"><div class="bi" style="background:'+color(b.name)+'">'+esc(b.name[0])+'</div><span>'+esc(b.name)+'</span></button>').join('');
+  }
+  const toUrl = t => { t=t.trim(); if(!t) return ''; if(/^https?:\/\//i.test(t)) return t;
+    if(/^[^\s]+\.[a-z]{2,}([\/?#].*)?$/i.test(t)) return 'https://'+t;
+    return 'https://www.google.com/search?q='+encodeURIComponent(t); };
+  function sGo(url, ext){
+    if(!url) return;
+    $('#sUrl').value=url.replace(/^https?:\/\//,'');
+    if(ext || /^https:\/\/www\.google\.com\//.test(url)){ window.open(url,'_blank','noopener'); toast('새 탭에서 열었어요'); return; }
+    sCur=url; $('#sFrame').src=url; $('#sFrame').classList.remove('hide'); $('#sHome').classList.add('hide');
+  }
+  function sHomeShow(){ sCur=''; $('#sFrame').src='about:blank'; $('#sFrame').classList.add('hide'); $('#sHome').classList.remove('hide'); $('#sUrl').value=''; }
+  R.safari = function(){ renderBm(); };
+  $('#sBm').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; const x=allBm()[+b.dataset.i]; sGo(x.url, x.ext); });
+  $('#sUrl').addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.isComposing){ e.preventDefault(); sGo(toUrl(e.target.value)); e.target.blur(); } });
+  $('#sHomeBtn').addEventListener('click', sHomeShow);
+  $('#sExt').addEventListener('click', ()=>{ if(sCur) window.open(sCur,'_blank','noopener'); else toast('열려 있는 페이지가 없어요'); });
+  $('#sStar').addEventListener('click', ()=>{
+    if(!sCur){ toast('먼저 사이트를 열어주세요'); return; }
+    const had=bms.find(b=>b.url===sCur);
+    if(had){ if(confirm('즐겨찾기에서 지울까요?')){ bms=bms.filter(b=>b!==had); DB.set('bookmarks',bms); renderBm(); toast('즐겨찾기에서 지웠어요'); } return; }
+    openSheet({title:'즐겨찾기 추가', saveLabel:'추가', fields:[{key:'name',ph:'이름',req:true,max:12,val:$('#sUrl').value.replace(/^www\./,'').split(/[./]/)[0]}],
+      onSave:v=>{ bms.push({name:v.name.trim(),url:sCur}); DB.set('bookmarks',bms); renderBm(); toast('즐겨찾기에 추가했어요'); }});
+  });
 
 })();
 </script>
